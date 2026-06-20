@@ -7,28 +7,6 @@ from matplotlib.widgets import Slider
 
 
 
-# calculation for the physics values
-
-def calculate_trajectory(angle, speed, gravity):
-    
-    angle_rad = np.radians(angle)
-    velocityX = speed * np.cos(angle_rad)
-    velocityY = speed * np.sin(angle_rad)
-
-    # how long the object is in the air for:
-    time_flight = velocityY * 2 / gravity
-
-
-    # time steps from start point 0 to time of flight
-    t = np.linspace(0, time_flight, 500)
-
-    # x and y coords at each time step
-
-    x = velocityX * t
-    y = velocityY * t - 0.5 * gravity * t**2
-
-    return x, y
-
 
 
 # init values 
@@ -41,7 +19,23 @@ gravity = 9.81 # grav accel in m/s^2
 fig, ax = plt.subplots(figsize = (10, 5))
 # so there is room for the sliders
 plt.subplots_adjust(bottom = 0.35)
-    
+
+
+x, y = calculate_trajectory(angle, speed, gravity)
+line = ax.plot(x, y, color = 'blue', linewidth = 2)
+
+# labels for the axes on the graph
+ax.set_xlabel("Distance (m)")
+ax.set_ylabel("Height (m)")
+ax.set_title("Projectile Motion Sim")
+
+
+# Sliders to control the sim
+
+
+
+
+
 
 
 
