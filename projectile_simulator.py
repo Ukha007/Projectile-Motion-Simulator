@@ -3,7 +3,7 @@ try:
 except ImportError:
     raise ImportError("not found")
 import matplotlib.pyplot as plt
-from matplotlib.widgets import Slider
+from matplotlib.widgets import Slider, Button
 from physics import calculate_trajectory
 
 
@@ -47,11 +47,11 @@ slider_gravity = Slider(graph_gravity, 'Gravity (m/s²)', 1, 25, valinit = gravi
 
 # Simulator start/reset buttons
 
-graph_start = plt.axes([0.80, 0.15, 0.1, 0.05])
-graph_reset = plt.axes([0.80, 0.07, 0.1, 0.05])
+graph_start = plt.axes([0.02, 0.20, 0.1, 0.05])
+graph_reset = plt.axes([0.02, 0.09, 0.1, 0.05])
 
 button_start = Button(graph_start, 'Start', color = 'blue')
-button_reset = Button(graph_start, 'Start', color = 'red')
+button_reset = Button(graph_reset, 'Reset', color = 'red')
 
 
 
