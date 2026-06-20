@@ -1,2 +1,3 @@
 # Projectile-Motion-Simulator
-A 2D simulator for projectiles built with Matlab and Python. It visualizes trajectories with a launch angle, init velocity and gravity
+
+A 2D simulator for projectiles built with Matlab and Python. It visualizes trajectories with a launch angle, init velocity and gravity and has realtime sliders
