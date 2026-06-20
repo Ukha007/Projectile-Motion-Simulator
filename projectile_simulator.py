@@ -37,13 +37,30 @@ graph.set_title("Projectile Motion Sim")
 # Sliders to control the sim
 
 #position and size for the slider
-graph_angle = plt.axes([0.15, 0.22, 0.55, 0.03])
-graph_speed = plt.axes([0.15, 0.15, 0.55, 0.03])
-graph_gravity = plt.axes([0.15, 0.08, 0.55, 0.03])
+graph_angle = plt.axes([0.25, 0.22, 0.55, 0.03])
+graph_speed = plt.axes([0.25, 0.15, 0.55, 0.03])
+graph_gravity = plt.axes([0.25, 0.08, 0.55, 0.03])
 
 slider_angle = Slider(graph_angle, 'Angle (∠∘)', 1, 89, valinit = angle)
 slider_speed = Slider(graph_speed, 'Speed (m/s)', 1, 45, valinit = speed)
-slider_gravity = Slider(graph_gravity, 'Gravity (m/s^2)', 1, 25, valinit = gravity)
+slider_gravity = Slider(graph_gravity, 'Gravity (m/s²)', 1, 25, valinit = gravity)
+
+# Simulator start/reset buttons
+
+graph_start = plt.axes([0.80, 0.15, 0.1, 0.05])
+graph_reset = plt.axes([0.80, 0.07, 0.1, 0.05])
+
+button_start = Button(graph_start, 'Start', color = 'blue')
+button_reset = Button(graph_start, 'Start', color = 'red')
+
+
+
+# animation logic for simulation
+
+
+
+
+
 
 
 
