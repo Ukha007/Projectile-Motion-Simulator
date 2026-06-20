@@ -1,0 +1,13 @@
+import numpy as np 
+import matplotlib.pyplot as plt
+from matplotlib.widgets import Slider
+
+
+
+# calculation for the physics values
+
+def calculate_trajectory(angle, speed, grav):
+    angle_rad = np.radians(angle)
+    velocityX = speed * np.cos(angle_rad)
+    velocityY = speed * np.sin(angle_rad)
+
