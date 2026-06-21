@@ -1,7 +1,4 @@
-try:
-    import numpy as np
-except ImportError:
-    raise ImportError("not found")
+import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button
 from physics import calculate_trajectory
@@ -70,6 +67,27 @@ button_reset = Button(graph_reset, 'Reset', color = 'red')
 # store animation object for now
 anim = None
 
+def start_animation(event):
+    global anim
+
+    # stop any previous animation already running
+    if anim is not None:
+        anim.event_source.stop()
+
+    # get current values for the slider
+    current_angle = slider_angle.val
+    current_speed = slider_speed.val
+    current_gravity = slider_gravity.val
+
+    #calculate the final trajectory
+    x, y = calculate_trajectory(current_angle, current_speed, current_gravity)
+
+    # scale the axis according to the scale of the trajectory
+
+    window.set_xlim(0, max(x) * 1.5)
+    window.set_ylim(0, max(y) * 1.5)
+
+
 def animate(i):
 
     # i represents the current frame number, incrementing by the interval
@@ -85,8 +103,16 @@ def animate(i):
 
     return trail_line, ball_proj
 
+anim = animation.FuncAnimation(
+    window,
+    animate,
+    frames=len(x), # how many steps per point in the trajectory
+    interval=10, # milliseconds btwn the frames
+    blit=True, # only redraw stuff that has changed
+    repeat=False
+)
 
-
+window.canvas.draw_idle()
 
 
 def reset(event):
@@ -95,23 +121,17 @@ def reset(event):
     #stop the animation logic if it is running
     if anim is not None:
         anim.event_source.stop()
-    # clear the graph
-    trail_line.
-    trail_line
-    ball_proj
-    ball_proj
+    # clear the graph with empty brackets
+    trail_line.set_xdata([])
+    trail_line.set_ydata([])
+    ball_proj.set_xdata([])
+    ball_proj.set_ydata([])
 
-
-
-
-
-
-
-
+    window.canvas.draw_idle()
 
 
 
 button_start.on_clicked(animate)
-button_reset.on_clicked()
+button_reset.on_clicked(reset)
 # display the window
 plt.show()
