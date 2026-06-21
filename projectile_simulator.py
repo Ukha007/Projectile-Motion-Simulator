@@ -22,14 +22,13 @@ plt.subplots_adjust(bottom = 0.35)
 
 
 x, y = calculate_trajectory(angle, speed, gravity)
-#colour for the curve
-line, = graph.plot(x, y, color = 'blue', linewidth = 2)
+
 
 # labels for the axes on the graph
 graph.set_xlabel("Distance (m)")
 graph.set_ylabel("Height (m)")
 graph.set_title("Projectile Motion Sim")
-graph.grid(True, linestyle='---', alpha=0.5)
+graph.grid(True, linestyle='--', alpha=0.5)
 
 
 # dotted trail line for the path of the ball as it moves
@@ -66,6 +65,21 @@ button_reset = Button(graph_reset, 'Reset', color = 'red')
 
 # store animation object for now
 anim = None
+def animate(i):
+    i = int(i)
+
+    # i represents the current frame number, incrementing by the interval
+    
+    #drawing and updating the trail starting from the beginning frame
+    trail_line.set_xdata(x[:i])
+    trail_line.set_ydata(y[:i])
+
+    # moving the ball to its current position and drawing it
+    ball_proj.set_xdata([x[i]])
+    ball_proj.set_ydata([y[i]])
+    return trail_line, ball_proj
+
+
 
 def start_animation(event):
     global anim
@@ -82,35 +96,20 @@ def start_animation(event):
     #calculate the final trajectory
     x, y = calculate_trajectory(current_angle, current_speed, current_gravity)
 
-    # scale the axis according to the scale of the trajectory
+    # scale the graph axes according to the scale of the trajectory
 
-    window.set_xlim(0, max(x) * 1.5)
-    window.set_ylim(0, max(y) * 1.5)
-
-
-def animate(i):
-
-    # i represents the current frame number, incrementing by the interval
-    
-    #drawing and updating the trail starting from the beginning frame
-    trail_line.set_xdata(x[:i])
-    trail_line.set_ydata(y[:i])
-
-    # moving the ball to its current position and drawing it
-    ball_proj.set_xdata(x[:i])
-    ball_proj.set_ydata(y[:i])
+    graph.set_xlim(0, max(x) * 1.5)
+    graph.set_ylim(0, max(y) * 1.5)
 
 
-    return trail_line, ball_proj
-
-anim = animation.FuncAnimation(
-    window,
-    animate,
-    frames=len(x), # how many steps per point in the trajectory
-    interval=10, # milliseconds btwn the frames
-    blit=True, # only redraw stuff that has changed
-    repeat=False
-)
+    anim = animation.FuncAnimation(
+        window,
+        animate,
+        frames=len(x), # how many steps per point in the trajectory
+        interval=10, # milliseconds btwn the frames
+        blit=True, # only redraw stuff that has changed
+        repeat=False
+    )
 
 window.canvas.draw_idle()
 
@@ -121,7 +120,9 @@ def reset(event):
     #stop the animation logic if it is running
     if anim is not None:
         anim.event_source.stop()
-    # clear the graph with empty brackets
+
+
+    # clear the trail andd ball on the graph
     trail_line.set_xdata([])
     trail_line.set_ydata([])
     ball_proj.set_xdata([])
@@ -130,8 +131,8 @@ def reset(event):
     window.canvas.draw_idle()
 
 
-
-button_start.on_clicked(animate)
+#connect buttns to their functions
+button_start.on_clicked(start_animation) # start button calls start_animation 
 button_reset.on_clicked(reset)
 # display the window
 plt.show()
