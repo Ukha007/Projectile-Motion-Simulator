@@ -16,7 +16,8 @@ angle = 45 # angle in degrees
 speed = 25 # launch speed in m/s
 gravity = 9.81 # grav accel in m/s^2
 
-#  draw trajectory
+
+# draw trajectory
 # graph window
 window, graph = plt.subplots(figsize = (10, 5))
 # so there is room for the sliders
@@ -31,6 +32,13 @@ line, = graph.plot(x, y, color = 'blue', linewidth = 2)
 graph.set_xlabel("Distance (m)")
 graph.set_ylabel("Height (m)")
 graph.set_title("Projectile Motion Sim")
+graph.grid(True, linestyle='---', alpha=0.5)
+
+
+# dotted trail line for the path of the ball as it moves
+trail_line, = graph.plot([], [], color = 'blue', linewidth=2)
+# ball (projectile) that moves along the path of the curve
+ball_proj, = graph.plot([], [], 'o', color = 'red', markersize=0)
 
 
 
@@ -41,6 +49,7 @@ graph_angle = plt.axes([0.25, 0.22, 0.55, 0.03])
 graph_speed = plt.axes([0.25, 0.15, 0.55, 0.03])
 graph_gravity = plt.axes([0.25, 0.08, 0.55, 0.03])
 
+# labels for the sliders 
 slider_angle = Slider(graph_angle, 'Angle (∠∘)', 1, 89, valinit = angle)
 slider_speed = Slider(graph_speed, 'Speed (m/s)', 1, 45, valinit = speed)
 slider_gravity = Slider(graph_gravity, 'Gravity (m/s²)', 1, 25, valinit = gravity)
@@ -50,12 +59,20 @@ slider_gravity = Slider(graph_gravity, 'Gravity (m/s²)', 1, 25, valinit = gravi
 graph_start = plt.axes([0.02, 0.20, 0.1, 0.05])
 graph_reset = plt.axes([0.02, 0.09, 0.1, 0.05])
 
+
 button_start = Button(graph_start, 'Start', color = 'blue')
 button_reset = Button(graph_reset, 'Reset', color = 'red')
 
 
 
 # animation logic for simulation
+
+
+def animate(i):
+
+    # now drawing and updating the trail starting from the beginning frame
+
+    trail_line.set_xdata(x[:i])
 
 
 
