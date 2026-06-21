@@ -65,14 +65,41 @@ button_reset = Button(graph_reset, 'Reset', color = 'red')
 
 
 
-# animation logic for simulation
+# animation logic for simulation that starts with the button presses
 
+# store animation object for now
+anim = None
 
 def animate(i):
 
-    # now drawing and updating the trail starting from the beginning frame
-
+    # i represents the current frame number, incrementing by the interval
+    
+    #drawing and updating the trail starting from the beginning frame
     trail_line.set_xdata(x[:i])
+    trail_line.set_ydata(y[:i])
+
+    # moving the ball to its current position and drawing it
+    ball_proj.set_xdata(x[:i])
+    ball_proj.set_ydata(y[:i])
+
+
+    return trail_line, ball_proj
+
+
+
+
+
+def reset(event):
+    global anim
+
+    #stop the animation logic if it is running
+    if anim is not None:
+        anim.event_source.stop()
+    # clear the graph
+    trail_line.
+    trail_line
+    ball_proj
+    ball_proj
 
 
 
@@ -84,9 +111,7 @@ def animate(i):
 
 
 
-
-
-
-
-# show the window
+button_start.on_clicked(animate)
+button_reset.on_clicked()
+# display the window
 plt.show()
