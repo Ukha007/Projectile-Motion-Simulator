@@ -32,9 +32,9 @@ graph.grid(True, linestyle='--', alpha=0.5)
 
 
 # dotted trail line for the path of the ball as it moves
-trail_line, = graph.plot([], [], color = 'blue', linewidth=2)
+trail_line, = graph.plot([], [], color = 'blue', linewidth=2, linestyle = '--')
 # ball (projectile) that moves along the path of the curve
-ball_proj, = graph.plot([], [], 'o', color = 'red', markersize=0)
+ball_proj, = graph.plot([], [], 'o', color = 'red', markersize=10)
 
 
 
@@ -82,11 +82,12 @@ def animate(i):
 
 
 def start_animation(event):
-    global anim
+    global anim, x, y
 
     # stop any previous animation already running
     if anim is not None:
         anim.event_source.stop()
+        anim = None
 
     # get current values for the slider
     current_angle = slider_angle.val
@@ -98,7 +99,7 @@ def start_animation(event):
 
     # scale the graph axes according to the scale of the trajectory
 
-    graph.set_xlim(0, max(x) * 1.5)
+    graph.set_xlim(0, max(x) * 1.2)
     graph.set_ylim(0, max(y) * 1.5)
 
 
@@ -111,7 +112,7 @@ def start_animation(event):
         repeat=False
     )
 
-window.canvas.draw_idle()
+    window.canvas.draw_idle()
 
 
 def reset(event):
@@ -120,6 +121,7 @@ def reset(event):
     #stop the animation logic if it is running
     if anim is not None:
         anim.event_source.stop()
+        anim = None
 
 
     # clear the trail andd ball on the graph
