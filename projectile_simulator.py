@@ -4,10 +4,6 @@ from matplotlib.widgets import Slider, Button
 from physics import calculate_trajectory
 
 
-
-
-
-
 # init values 
 angle = 45 # angle in degrees
 speed = 25 # launch speed in m/s
@@ -35,6 +31,10 @@ graph.grid(True, linestyle='--', alpha=0.5)
 trail_line, = graph.plot([], [], color = 'blue', linewidth=2, linestyle = '--')
 # ball (projectile) that moves along the path of the curve
 ball_proj, = graph.plot([], [], 'o', color = 'red', markersize=10)
+
+# adding ghost line for past trajectories
+
+ghost_line, = graph.plot([], [], color = 'grey', linewidth=1, linestyle='--', alpha=0.4)
 
 
 
@@ -101,6 +101,10 @@ def start_animation(event):
     current_speed = slider_speed.val
     current_gravity = slider_gravity.val
 
+    # save previous trail as ghost before starting new one
+    ghost_line.set_xdata(trail_line.get_xdata())
+    ghost_line.set_ydata(trail_line.get_ydata())
+
     #calculate the final trajectory
     x, y = calculate_trajectory(current_angle, current_speed, current_gravity)
 
@@ -141,6 +145,9 @@ def reset(event):
     trail_line.set_ydata([])
     ball_proj.set_xdata([])
     ball_proj.set_ydata([])
+    # clear ghost trail
+    ghost_line.set_xdata([])
+    ghost_line.set_ydata([])
 
     # reset the axes back to default view
     graph.set_xlim(0, 1)
