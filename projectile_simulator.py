@@ -66,6 +66,7 @@ button_reset = Button(graph_reset, 'Reset', color = 'red')
 # store animation object for now
 anim = None
 def animate(i):
+    global anim
     i = int(i)
 
     # i represents the current frame number, incrementing by the interval
@@ -77,6 +78,12 @@ def animate(i):
     # moving the ball to its current position and drawing it
     ball_proj.set_xdata([x[i]])
     ball_proj.set_ydata([y[i]])
+
+    # when we reach the last frame clear anim again
+
+    if i >= len(x) -1:
+        anim = None
+
     return trail_line, ball_proj
 
 
@@ -84,7 +91,7 @@ def animate(i):
 def start_animation(event):
     global anim, x, y
 
-    # stop any previous animation already running
+    # stop any previous animation already running, if not do nothing
     if anim is not None:
         anim.event_source.stop()
         anim = None
@@ -111,17 +118,22 @@ def start_animation(event):
         blit=True, # only redraw stuff that has changed
         repeat=False
     )
+   
 
     window.canvas.draw_idle()
+
 
 
 def reset(event):
     global anim
 
     #stop the animation logic if it is running
-    if anim is not None:
-        anim.event_source.stop()
-        anim = None
+    if anim is None:
+        print("Press start first")
+        return #exits the function early if reset is pressed before start
+    
+    anim.event_source.stop()
+    anim = None
 
 
     # clear the trail andd ball on the graph
@@ -129,6 +141,10 @@ def reset(event):
     trail_line.set_ydata([])
     ball_proj.set_xdata([])
     ball_proj.set_ydata([])
+
+    # reset the axes back to default view
+    graph.set_xlim(0, 1)
+    graph.set_ylim(0, 1)
 
     window.canvas.draw_idle()
 
